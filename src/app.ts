@@ -5,7 +5,7 @@ import bodyParser from 'body-parser';
 
 const app = express();
 
-if (process.env.NODE_ENV !== 'PRODUCTION') {
+if (process.env.NODE_ENV === 'DEVELOPMENT') {
   config({ path: '.env' });
 }
 

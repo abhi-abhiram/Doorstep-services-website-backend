@@ -1,5 +1,10 @@
 {
-  "execMap": {
-    "ts": "ts-node -r tsconfig-paths/register"
+  "watch": ["src"],
+  "ext": "ts,js,json",
+  "ignore": ["node_modules", "coverage", "dist"],
+  "exec": "ts-node -r tsconfig-paths/register ./src/app.ts",
+  "restartable": "rs",
+  "env": {
+    "NODE_ENV": "DEVELOPMENT"
   }
 }
