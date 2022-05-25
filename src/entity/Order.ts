@@ -14,7 +14,7 @@ export enum PaymentStatus {
   PROCESSING = 'processing',
 }
 
-@Entity('location')
+@Entity('order')
 export default class Order extends Address {
   @Column()
   pirce!: number;
