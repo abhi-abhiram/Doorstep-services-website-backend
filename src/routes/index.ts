@@ -1,1 +1,2 @@
-export { default as demoRoute } from "./demoRoute";
+export { default as user } from './user';
+export { default as professional } from './professional';

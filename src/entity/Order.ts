@@ -1,5 +1,7 @@
-import { Entity, Column } from 'typeorm';
+import { Entity, Column, JoinColumn, ManyToOne } from 'typeorm';
 import Address from './entityUtils/Address';
+import Service from './Service';
+import User from './User';
 
 export enum DeliveredStatus {
   DELIVERED = 'delivered',
@@ -36,4 +38,16 @@ export default class Order extends Address {
     default: PaymentStatus.PENDING,
   })
   payment_status!: string;
+
+  @ManyToOne(() => User, (user) => user.orders)
+  @JoinColumn({
+    name: 'user_id',
+  })
+  user!: User;
+
+  @ManyToOne(() => Service, (service) => service.orders)
+  @JoinColumn({
+    name: 'service_id',
+  })
+  service!: Service;
 }

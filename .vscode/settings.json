@@ -1,4 +1,6 @@
 {
   "files.eol": "\n",
-  "javascript.suggest.paths": false
+  "javascript.suggest.paths": true,
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "typescript.format.insertSpaceAfterCommaDelimiter": true
 }
