@@ -4,7 +4,7 @@ import ErrorHander from './utils/errorHandler';
 
 const main = async () => {
   await AppDataSource.initialize();
-  app.listen(3000, () => {
+  app.listen(process.env.PORT, () => {
     console.log('server is started on port 3000..');
   });
 };

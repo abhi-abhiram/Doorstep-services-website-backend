@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(cookieparser());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-swaggerDocs(app, 3000);
+swaggerDocs(app, process.env.PORT as unknown as number);
 app.use('/api/user', user);
 
 app.use(errorHandlerMiddleware);
