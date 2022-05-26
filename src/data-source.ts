@@ -16,11 +16,7 @@ if (process.env.NODE_ENV !== 'PRODUCTION') {
 }
 const AppDataSource = new DataSource({
   type: 'postgres',
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT as unknown as number,
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DATABASE,
+  url:process.env.DATABASE_URL,
   synchronize: true,
   logging: false,
   entities: [User, Location, Order, Professional, Service, Admin, Address],
