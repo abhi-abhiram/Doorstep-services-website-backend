@@ -22,6 +22,7 @@ const AppDataSource = new DataSource({
   entities: [User, Location, Order, Professional, Service, Admin, Address],
   migrations: [],
   subscribers: [],
+  ssl: true,
 });
 
 export default AppDataSource;
