@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon",
-    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/src/app.js",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register ./dist/src/server.js",
     "build": "tsc"
   },
   "repository": {
