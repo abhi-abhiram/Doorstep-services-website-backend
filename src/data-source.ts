@@ -14,6 +14,7 @@ import {
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
+
 const AppDataSource = new DataSource({
   type: 'postgres',
   url: process.env.DATABASE_URL,
@@ -24,11 +25,13 @@ const AppDataSource = new DataSource({
   subscribers: [],
   ssl: Boolean(process.env.SSL),
   extra:
-    process.env.NODE_ENV !== 'production'
-      ? {}
-      : {
-          rejectUnauthorized: false,
-        },
+    (process.env.NODE_ENV as string).localeCompare('production') === 1
+      ? {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        }
+      : {},
 });
 
 export default AppDataSource;
