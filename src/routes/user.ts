@@ -3,9 +3,10 @@ import {
   registerUser,
   addAddress,
   loginUser,
-  logout,
 } from '../controllers/userController';
 import isAuthenticated from '../middleware/auth';
+import { logout } from '../controllers/allController';
+import { Roles } from '../utils/getClient';
 
 const router = express.Router();
 
@@ -47,7 +48,7 @@ router.route('/register').post(registerUser);
    *      201:
    *        description: address added successfully
    */
-router.route('/addAddress').post(isAuthenticated, addAddress);
+router.route('/addAddress').post(isAuthenticated(Roles.USER), addAddress);
 
 /**
  * @openapi

@@ -3,34 +3,17 @@ import { NextFunction, Request } from 'express';
 import { BaseEntity } from 'typeorm';
 import ErrorHander from '../utils/errorHandler';
 import catchAsyncErrors from './catchAsyncErrors';
-import { Admin, Professional, User } from '../entity';
-
-export enum Roles {
-  USER = 'user',
-  PROFESSIONAL = 'professional',
-  ADMIN = 'admin',
-}
+import { Admin } from '../entity';
+import getClient, { Roles } from '../utils/getClient';
 
 export interface AuthRequest extends Request {
   cookies: { token: string };
   client?: BaseEntity;
+  role?: Roles;
 }
 
-const SearchClientData = (role: Roles, id: number) => {
-  switch (role) {
-    case Roles.USER:
-      return User.findOneBy({ id });
-    case Roles.PROFESSIONAL:
-      return Professional.findOneBy({ id });
-    case Roles.ADMIN:
-      return Admin.findOneBy({ id });
-    default:
-      throw new ErrorHander('Enter valid role', 400);
-  }
-};
-
-const isAuthenticated = catchAsyncErrors(
-  async (req: AuthRequest, res, next: NextFunction) => {
+const isAuthenticated = (allowedRole?: Roles) =>
+  catchAsyncErrors(async (req: AuthRequest, res, next: NextFunction) => {
     const { token } = req.cookies;
 
     if (!token) {
@@ -41,13 +24,22 @@ const isAuthenticated = catchAsyncErrors(
 
     const { id, role } = decodedData as { id: number; role: Roles };
 
-    req.client = (await SearchClientData(role, id)) as Admin;
+    req.role = role;
+
+    if (role !== allowedRole && allowedRole !== Roles.ALL)
+      return next(
+        new ErrorHander(
+          `Role: ${role} is not allowed to access this resouce `,
+          403
+        )
+      );
+
+    if (role) req.client = (await getClient(role, { id })) as Admin;
 
     if (req.client === null) {
       return next(new ErrorHander('Requested client id is not available', 403));
     }
     return next();
-  }
-);
+  });
 
 export default isAuthenticated;

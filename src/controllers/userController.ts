@@ -3,6 +3,8 @@ import { NextFunction, Request, Response } from 'express';
 import { User, Address } from '../entity';
 import ErrorHander from '../utils/errorHandler';
 import sendToken from '../utils/jwtToken';
+import { loginClient } from './allController';
+import { Roles } from '../utils/getClient';
 
 interface Register {
   name: string;
@@ -30,7 +32,7 @@ export const registerUser = catchAsyncErrors(
 
     try {
       const userData = await user.save();
-      return sendToken(userData, 201, res, userData.getJWTToken());
+      return sendToken(userData, 201, res, userData.getJWTToken(), Roles.USER);
     } catch (error) {
       const message = (error as { detail: string }).detail;
       if (message) return next(new ErrorHander(message, 409));
@@ -65,47 +67,4 @@ export const addAddress = catchAsyncErrors(
   }
 );
 
-interface UserCredentials {
-  email: string;
-  password: string;
-}
-
-export const loginUser = catchAsyncErrors(
-  async (
-    req: CustomRequest<UserCredentials>,
-    res: Response,
-    next: NextFunction
-  ) => {
-    const { email, password } = req.body;
-
-    if (!email || !password) {
-      return next(new ErrorHander('Please Enter Email & Password', 400));
-    }
-
-    const user = await User.findOneBy({ email });
-
-    if (!user) {
-      return next(new ErrorHander('Invalid email or password', 401));
-    }
-
-    const isPasswordMatched = await user?.comparePassword(password);
-
-    if (!isPasswordMatched) {
-      return next(new ErrorHander('Invalid email or password', 401));
-    }
-
-    if (user) return sendToken(user, 200, res, user?.getJWTToken());
-  }
-);
-
-export const logout = catchAsyncErrors((req, res) => {
-  res.cookie('token', null, {
-    expires: new Date(Date.now()),
-    httpOnly: true,
-  });
-
-  return res.status(200).json({
-    success: true,
-    message: 'Logged Out',
-  });
-});
+export const loginUser = loginClient(Roles.USER);

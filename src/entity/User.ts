@@ -3,7 +3,7 @@ import generateToken from '../utils/generateToken';
 import Address from './Address';
 import Person from './entityUtils/Person';
 import Order from './Order';
-import { Roles } from '../middleware/auth';
+import { Roles } from '../utils/getClient';
 
 @Entity('user')
 export default class User extends Person {

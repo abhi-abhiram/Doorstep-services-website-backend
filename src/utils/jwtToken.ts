@@ -1,10 +1,12 @@
 import { Response } from 'express';
+import { Roles } from './getClient';
 
 export default function sendToken<T>(
-  user: T,
+  client: T,
   statusCode: number,
   res: Response,
-  token: string
+  token: string,
+  role: Roles
 ) {
   const options = {
     expires: new Date(
@@ -14,9 +16,12 @@ export default function sendToken<T>(
     httpOnly: true,
   };
 
-  res.status(statusCode).cookie('token', token, options).json({
-    success: true,
-    user,
-    token,
-  });
+  res
+    .status(statusCode)
+    .cookie('token', token, options)
+    .json({
+      success: true,
+      [role]: client,
+      token,
+    });
 }

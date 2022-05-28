@@ -1,5 +1,5 @@
 import { Entity } from 'typeorm';
-import { Roles } from '../middleware/auth';
+import { Roles } from '../utils/getClient';
 import generateToken from '../utils/generateToken';
 import Person from './entityUtils/Person';
 
