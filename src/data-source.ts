@@ -25,10 +25,10 @@ const AppDataSource = new DataSource({
   ssl: Boolean(process.env.SSL),
   extra:
     process.env.NODE_ENV !== 'PRODUCTION'
-      ? {
+      ? {}
+      : {
           rejectUnauthorized: false,
-        }
-      : {},
+        },
 });
 
 export default AppDataSource;
