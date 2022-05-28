@@ -62,8 +62,8 @@ router.route('/addAddress').post(isAuthenticated, addAddress);
    *           schema:
    *              $ref: '#/components/schemas/login'
    *     responses:
-   *      201:
-   *        description: address added successfully
+   *      200:
+   *        description: login success
    */
 router.route('/login').post(loginUser);
 
