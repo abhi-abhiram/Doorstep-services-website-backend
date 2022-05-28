@@ -7,7 +7,6 @@ import {
   BeforeInsert,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
 
 @Entity()
@@ -51,12 +50,6 @@ export default class Person extends BaseEntity {
     this.password = await bcrypt.hash(password || this.password, salt);
   }
 
-  getJWTToken() {
-    return jwt.sign({ id: this.id }, process.env.JWT_SECRET as string, {
-      expiresIn: process.env.JWT_EXPIRE,
-    });
-  }
-
   getResetPasswordToken() {
     const resetToken = crypto.randomBytes(20).toString('hex');
 
@@ -68,5 +61,9 @@ export default class Person extends BaseEntity {
     this.reset_password_expire = Date.now() + 15 * 60 * 1000;
 
     return resetToken;
+  }
+
+  async comparePassword(password: string) {
+    return bcrypt.compare(password, this.password);
   }
 }

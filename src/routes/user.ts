@@ -1,5 +1,10 @@
 import express from 'express';
-import userController from '../controllers/userController';
+import {
+  registerUser,
+  addAddress,
+  loginUser,
+} from '../controllers/userController';
+import isAuthenticated from '../middleware/auth';
 
 const router = express.Router();
 
@@ -15,17 +20,51 @@ const router = express.Router();
    *      content:
    *        application/json:
    *           schema:
-   *              $ref: '#/components/schemas/CreateUserInput'
+   *              $ref: '#/components/schemas/RegisterUser'
    *     responses:
-   *      200:
-   *        description: Success
-   *        content:
-   *          application/json:
+   *      201:
+   *        description: user created successfully
    *      409:
-   *        description: Conflict
-   *      400:
-   *        description: Bad request
+   *        description: values already exists
    */
-router.route('/register').post(userController);
+router.route('/register').post(registerUser);
+
+/**
+ * @openapi
+ '/api/user/addAddress':
+   *  post:
+   *     tags:
+   *     - User
+   *     summary: Add address for a user
+   *     requestBody:
+   *      required: true
+   *      content:
+   *        application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/addAddress'
+   *     responses:
+   *      201:
+   *        description: address added successfully
+   */
+router.route('/addAddress').post(isAuthenticated, addAddress);
+
+/**
+ * @openapi
+ '/api/user/login':
+   *  post:
+   *     tags:
+   *     - User
+   *     summary: Add address for a user
+   *     requestBody:
+   *      required: true
+   *      content:
+   *        application/json:
+   *           schema:
+   *              $ref: '#/components/schemas/login'
+   *     responses:
+   *      201:
+   *        description: address added successfully
+   */
+router.route('/login').post(loginUser);
 
 export default router;

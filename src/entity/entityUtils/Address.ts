@@ -1,12 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from 'typeorm';
 
 @Entity()
-export default class Address {
+export default class Address extends BaseEntity {
   @PrimaryGeneratedColumn()
   id!: number;
 
   @Column()
-  address!: number;
+  address!: string;
 
   @Column()
   city!: string;

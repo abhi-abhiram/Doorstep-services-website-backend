@@ -1,7 +1,9 @@
 import { Entity, Column, OneToMany } from 'typeorm';
+import generateToken from '../utils/generateToken';
 import Address from './Address';
 import Person from './entityUtils/Person';
 import Order from './Order';
+import { Roles } from '../middleware/auth';
 
 @Entity('user')
 export default class User extends Person {
@@ -15,4 +17,8 @@ export default class User extends Person {
 
   @OneToMany(() => Order, (order) => order.user)
   orders!: Order[];
+
+  getJWTToken() {
+    return generateToken(Roles.USER, this.id);
+  }
 }

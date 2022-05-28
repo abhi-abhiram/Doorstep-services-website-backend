@@ -1,10 +1,8 @@
-import { object, string, TypeOf } from 'zod';
-
 /**
  * @openapi
  * components:
  *  schemas:
- *    CreateUserInput:
+ *    RegisterUser:
  *      type: object
  *      required:
  *        - email
@@ -24,29 +22,43 @@ import { object, string, TypeOf } from 'zod';
  *        phoneNo:
  *          type: string
  *          default: 1234567890
+ *        avatar:
+ *          type: url
+ *          default: www.userAvatar.com
+ *    addAddress:
+ *      type: object
+ *      required:
+ *        - address
+ *        - city
+ *        - state
+ *        - country
+ *        - pinCode
+ *      properties:
+ *        address:
+ *          type: string
+ *          default: "6 Woodside Lane West Babylon, NY 11704"
+ *        city:
+ *          type: string
+ *          default: NYC
+ *        state:
+ *          type: string
+ *          default: NY
+ *        country:
+ *          type: string
+ *          default: USA
+ *        pinCode:
+ *          type: number
+ *          default: 10012
+ *    login:
+ *      type: object
+ *      required:
+ *        - email
+ *        - password
+ *      properties:
+ *        email:
+ *          type: string
+ *          default: "jane.doe@example.com"
+ *        password:
+ *          type: string
+ *          default: "stringPassword123"
  */
-
-export const createUserSchema = object({
-  body: object({
-    name: string({
-      required_error: 'Name is required',
-    }),
-    password: string({
-      required_error: 'Name is required',
-    }).min(6, 'Password too short - should be 6 chars minimum'),
-    passwordConfirmation: string({
-      required_error: 'passwordConfirmation is required',
-    }),
-    email: string({
-      required_error: 'Email is required',
-    }).email('Not a valid email'),
-  }).refine((data) => data.password === data.passwordConfirmation, {
-    message: 'Passwords do not match',
-    path: ['passwordConfirmation'],
-  }),
-});
-
-export type CreateUserInput = Omit<
-  TypeOf<typeof createUserSchema>,
-  'body.passwordConfirmation'
->;

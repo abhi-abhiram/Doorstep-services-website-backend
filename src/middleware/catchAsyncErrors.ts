@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 
-type Controller = (req: Request, res: Response, next: NextFunction) => unknown;
+type Controller<T> = (req: T, res: Response, next: NextFunction) => unknown;
 
-export default (theFunc: Controller) =>
-  (req: Request, res: Response, next: NextFunction) => {
+export default <T>(theFunc: Controller<T>) =>
+  (req: T, res: Response, next: NextFunction) => {
     Promise.resolve(theFunc(req, res, next)).catch((err) => next(err));
   };
