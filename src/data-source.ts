@@ -22,12 +22,13 @@ const AppDataSource = new DataSource({
   entities: [User, Location, Order, Professional, Service, Admin, Address],
   migrations: [],
   subscribers: [],
-  ssl: true,
-  extra: {
-    ssl: {
-      rejectUnauthorized: false,
-    },
-  },
+  ssl: Boolean(process.env.SSL),
+  extra:
+    process.env.NODE_ENV !== 'PRODUCTION'
+      ? {
+          rejectUnauthorized: false,
+        }
+      : {},
 });
 
 export default AppDataSource;
