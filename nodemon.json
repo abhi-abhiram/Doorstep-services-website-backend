@@ -5,6 +5,6 @@
   "exec": "ts-node -r tsconfig-paths/register ./src/server.ts",
   "restartable": "rs",
   "env": {
-    "NODE_ENV": "DEVELOPMENT"
+    "NODE_ENV": "development"
   }
 }
