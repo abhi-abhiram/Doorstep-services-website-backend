@@ -11,7 +11,7 @@ import {
   User,
 } from './entity';
 
-if (process.env.NODE_ENV !== 'PRODUCTION') {
+if (process.env.NODE_ENV !== 'production') {
   dotenv.config();
 }
 const AppDataSource = new DataSource({
@@ -24,7 +24,7 @@ const AppDataSource = new DataSource({
   subscribers: [],
   ssl: Boolean(process.env.SSL),
   extra:
-    process.env.NODE_ENV !== 'PRODUCTION'
+    process.env.NODE_ENV !== 'production'
       ? {}
       : {
           rejectUnauthorized: false,
