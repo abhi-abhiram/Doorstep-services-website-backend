@@ -25,7 +25,7 @@ const AppDataSource = new DataSource({
   subscribers: [],
   ssl: Boolean(process.env.SSL),
   extra:
-    (process.env.NODE_ENV as string).localeCompare('production') === 1
+    (process.env.NODE_ENV as string).localeCompare('production') === 0
       ? {
           ssl: {
             rejectUnauthorized: false,
