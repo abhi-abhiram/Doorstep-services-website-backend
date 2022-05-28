@@ -61,4 +61,5 @@
  *        password:
  *          type: string
  *          default: "stringPassword123"
+ *    logout:
  */

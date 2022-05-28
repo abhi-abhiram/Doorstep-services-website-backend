@@ -10,6 +10,7 @@ const options: swaggerJsdoc.Options = {
       title: 'REST API Docs',
       version,
     },
+    schemes: ['http', 'https'],
     components: {
       securitySchemas: {
         bearerAuth: {

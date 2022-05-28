@@ -34,7 +34,7 @@ const isAuthenticated = catchAsyncErrors(
     const { token } = req.cookies;
 
     if (!token) {
-      next(new ErrorHander('Please Login to access this resource', 401));
+      return next(new ErrorHander('Please Login to access this resource', 401));
     }
 
     const decodedData = jwt.verify(token, process.env.JWT_SECRET as string);
@@ -44,9 +44,9 @@ const isAuthenticated = catchAsyncErrors(
     req.client = (await SearchClientData(role, id)) as Admin;
 
     if (req.client === null) {
-      next(new ErrorHander('Requested client id is not available', 403));
+      return next(new ErrorHander('Requested client id is not available', 403));
     }
-    next();
+    return next();
   }
 );
 

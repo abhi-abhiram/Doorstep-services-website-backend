@@ -3,6 +3,7 @@ import {
   registerUser,
   addAddress,
   loginUser,
+  logout,
 } from '../controllers/userController';
 import isAuthenticated from '../middleware/auth';
 
@@ -54,7 +55,7 @@ router.route('/addAddress').post(isAuthenticated, addAddress);
    *  post:
    *     tags:
    *     - User
-   *     summary: Add address for a user
+   *     summary: user login
    *     requestBody:
    *      required: true
    *      content:
@@ -66,5 +67,18 @@ router.route('/addAddress').post(isAuthenticated, addAddress);
    *        description: login success
    */
 router.route('/login').post(loginUser);
+
+/**
+ * @openapi
+ '/api/user/logout':
+   *  get:
+   *     tags:
+   *     - User
+   *     summary: user logout
+   *     responses:
+   *      200:
+   *        description: logout successfull
+   */
+router.route('/logout').get(logout);
 
 export default router;

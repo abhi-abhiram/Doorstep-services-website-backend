@@ -27,7 +27,8 @@
   "rules": {
     "prettier/prettier": "error",
     "no-console": "off",
-    "import/no-cycle": "off"
+    "import/no-cycle": "off",
+    "consistent-return": "off"
   },
   "settings": {
     "import/resolver": {

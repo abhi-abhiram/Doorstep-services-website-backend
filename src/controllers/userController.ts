@@ -30,11 +30,10 @@ export const registerUser = catchAsyncErrors(
 
     try {
       const userData = await user.save();
-
-      sendToken(userData, 201, res, userData.getJWTToken());
+      return sendToken(userData, 201, res, userData.getJWTToken());
     } catch (error) {
       const message = (error as { detail: string }).detail;
-      if (message) next(new ErrorHander(message, 409));
+      if (message) return next(new ErrorHander(message, 409));
     }
   }
 );
@@ -60,10 +59,9 @@ export const addAddress = catchAsyncErrors(
       const address = Address.create({ ...addressBody, user: req.client });
       const userAddress = await address.save();
 
-      res.json({ success: true, userAddress });
-    } else {
-      throw new ErrorHander("user doesn't exist", 403);
+      return res.json({ success: true, userAddress });
     }
+    throw new ErrorHander("user doesn't exist", 403);
   }
 );
 
@@ -81,21 +79,33 @@ export const loginUser = catchAsyncErrors(
     const { email, password } = req.body;
 
     if (!email || !password) {
-      next(new ErrorHander('Please Enter Email & Password', 400));
+      return next(new ErrorHander('Please Enter Email & Password', 400));
     }
 
     const user = await User.findOneBy({ email });
 
     if (!user) {
-      next(new ErrorHander('Invalid email or password', 401));
+      return next(new ErrorHander('Invalid email or password', 401));
     }
 
     const isPasswordMatched = await user?.comparePassword(password);
 
     if (!isPasswordMatched) {
-      next(new ErrorHander('Invalid email or password', 401));
+      return next(new ErrorHander('Invalid email or password', 401));
     }
 
-    if (user) sendToken(user, 200, res, user?.getJWTToken());
+    if (user) return sendToken(user, 200, res, user?.getJWTToken());
   }
 );
+
+export const logout = catchAsyncErrors((req, res) => {
+  res.cookie('token', null, {
+    expires: new Date(Date.now()),
+    httpOnly: true,
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: 'Logged Out',
+  });
+});
