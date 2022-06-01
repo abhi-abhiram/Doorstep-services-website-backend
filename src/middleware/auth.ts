@@ -29,7 +29,7 @@ const isAuthenticated = (allowedRole?: Roles) =>
     if (role !== allowedRole && allowedRole !== Roles.ALL)
       return next(
         new ErrorHander(
-          `Role: ${role} is not allowed to access this resouce `,
+          `Role: ${role} is not allowed to access this resource `,
           403
         )
       );

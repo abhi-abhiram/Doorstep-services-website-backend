@@ -1,7 +1,7 @@
 import express from 'express';
 import cookieparser from 'cookie-parser';
 import bodyParser from 'body-parser';
-import { all, professional, user } from './routes';
+import { admin, all, professional, user } from './routes';
 import errorHandlerMiddleware from './middleware/errorHandlerMiddleware';
 import swaggerDocs from './utils/swagger';
 
@@ -15,6 +15,7 @@ swaggerDocs(app, process.env.PORT as unknown as number);
 app.use('/api/user', user);
 app.use('/api/professional', professional);
 app.use('/api/all', all);
+app.use('/api/admin', admin);
 
 app.use(errorHandlerMiddleware);
 
